@@ -1,125 +1,72 @@
-# 🧩 API REST con Node.js, Sequelize y MySQL
+# ApiRest Node.js + AutoCRUD (MVC Reducido)
 
-Este proyecto se utiliza en clase como ejemplo práctico para aprender el desarrollo de **APIs RESTful** utilizando **Node.js**, el **ORM Sequelize** y una base de datos **MySQL**.
+Proyecto refactorizado para la asignatura de Desarrollo Backend. Incluye un generador automático de CRUD basado en modelos Sequelize con arquitectura MVC.
 
-El objetivo principal es comprender cómo se estructuran las capas de un proyecto backend moderno, cómo se conectan los modelos con la base de datos mediante un ORM y cómo se implementan las operaciones CRUD (Crear, Leer, Actualizar y Borrar) en diferentes entidades relacionadas.
+## Requisitos
 
----
+- Node.js (v14 o superior)
+- MySQL / MariaDB (XAMPP recomendado)
 
-## 🧱 Tecnologías utilizadas
+## Instalación
 
-- **Node.js** → Entorno de ejecución para JavaScript en el servidor.  
-- **Express.js** → Framework minimalista para crear servidores HTTP y definir rutas.  
-- **Sequelize ORM** → Mapeo objeto-relacional para conectar Node.js con MySQL de forma sencilla.  
-- **MySQL** → Sistema de gestión de bases de datos relacional.  
+1.  Clonar repositorio o descargar archivos.
+2.  Instalar dependencias:
+    ```bash
+    npm install
+    ```
+3.  Configurar base de datos en `config/db.js` (si es necesario cambiar usuario/contraseña).
 
----
-
-## ⚙️ Instalación
-
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/usuario/api-rest-sequelize.git
-   cd api-rest-sequelize
-   ```
-
-2. Instalar las dependencias:
-   ```bash
-   npm install
-   ```
-
-3. Configurar la conexión a la base de datos en:
-   ```
-   /config/db.js
-   ```
-   Ejemplo:
-   ```js
-   import { Sequelize } from "sequelize";
-
-   export const sequelize = new Sequelize("api_rest_db", "root", "", {
-     host: "localhost",
-     dialect: "mysql",
-     logging: false
-   });
-   ```
-
-4. Ejecutar el servidor:
-   ```bash
-   npm run dev
-   ```
-
----
-
-## 🧩 Estructura del proyecto
+## Estructura del Proyecto
 
 ```
-📦 ApiRest_Node_ORM_Sequelize
- ├── config/
- │   └── db.js                # Conexión a MySQL
- ├── models/                  # Modelos ORM Sequelize (una clase por tabla)
- ├── controllers/             # Controladores CRUD (lógica de negocio)
- ├── routes/                  # Rutas Express (endpoints REST)
- ├── server.js                # Servidor principal
- ├── autocrud.js              # Generador automático de controladores y rutas
- ├── package.json
- └── README.md
+/
+├── autocrud.js         # Script generador de código
+├── server.js           # Punto de entrada del servidor
+├── models/             # Definición de modelos Sequelize
+├── routes/             # Rutas Express (Generadas)
+├── controllers/        # Controladores Personalizados (Generados/Editables)
+│   └── base/           # Controladores Base Genéricos (Generados/No editar)
+└── services/           # Lógica de acceso a datos (Generados)
 ```
 
----
+## Uso de AutoCRUD
 
-## 🧠 Conceptos que veremos en clase
+El script `autocrud.js` escanea la carpeta `models/` y crea automáticamente los archivos necesarios para exponer una API REST completa.
 
-### 🔹 Node.js y Express
-- Creación de un servidor básico con Express.
-- Configuración de rutas y middlewares.
-- Manejo de peticiones HTTP (GET, POST, PUT, DELETE).
+### Pasos para añadir una nueva tabla (Simulacro de Examen):
 
-### 🔹 ORM Sequelize
-- Conexión entre modelos y tablas de MySQL.
-- Creación de entidades (`sequelize-auto`).
-- Relaciones entre tablas (1:N, N:N, FK).
-- Sincronización automática de tablas (`sequelize.sync()`).
-- Uso de métodos ORM (`findAll`, `create`, `update`, `destroy`).
+1.  Crear el archivo del modelo en `models/` (ej. `models/cliente.js`).
 
-### 🔹 MySQL
-- Creación de base de datos y tablas.
-- Relaciones mediante claves foráneas.
-- Consulta y manipulación de datos desde la API.
+    ```javascript
+    import { DataTypes } from "sequelize";
+    import { sequelize } from "../config/db.js";
 
----
+    const Cliente = sequelize.define("Cliente", {
+      // Definición de campos...
+    });
 
-## 🧪 Ejecución y pruebas
+    export default Cliente;
+    ```
 
-El servidor se ejecuta por defecto en:
+2.  Ejecutar el AutoCRUD:
+    ```bash
+    node autocrud.js
+    ```
+3.  Iniciar el servidor:
 
-```
-http://localhost:3000
-```
+    ```bash
+    node server.js
+    ```
 
-Rutas disponibles (ejemplos):
+    _El servidor sincronizará la BD y cargará las rutas automáticamente._
 
-| Entidad | Método | Endpoint |
-|----------|---------|-----------|
-| Productos | GET | `/api/productos` |
-| Categorías | GET | `/api/categorias` |
-| Clientes | GET | `/api/clientes` |
-| Pedidos | GET | `/api/pedidos` |
-| Detalles Pedido | GET | `/api/detalles_pedido` |
+4.  Probar endpoints (ej. con Postman o Thunder Client):
+    - `GET /cliente`
+    - `POST /cliente`
+    - `GET /cliente/:id`
+    - `PUT /cliente/:id`
+    - `DELETE /cliente/:id`
 
-Puedes probar la API con **Postman** o **Thunder Client** (extensión de VS Code).
+## Logs
 
----
-
-## 🎯 Objetivo educativo
-
-Este proyecto servirá como base para que el alumnado:
-- Comprenda la estructura MVC en un entorno Node.js.
-- Practique la comunicación entre una API y una base de datos relacional.
-- Experimente con la automatización de código (autocrud).
-- Aprenda a trabajar con ORM para abstraer las consultas SQL.
-
----
-
-✍️ **Autor:**  
-Carlos Basulto Pardo — Profesor de Desarrollo de Aplicaciones Multiplataforma y Web  
-📍 EUSA Sevilla
+El sistema incluye una tabla `logs` lista para usar.

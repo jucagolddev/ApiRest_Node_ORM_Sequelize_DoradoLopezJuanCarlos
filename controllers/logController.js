@@ -1,4 +1,4 @@
-import * as Base from "./base/productosBaseController.js";
+import * as Base from "./base/logBaseController.js";
 
 // Si quisiéramos sobrescribir un método, lo haríamos aquí:
 // export const obtenerTodos = async (req, res) => { ... }

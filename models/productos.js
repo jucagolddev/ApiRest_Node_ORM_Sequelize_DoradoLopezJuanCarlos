@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/db.js";
 
-export const Producto = sequelize.define("Productos", {
+const Producto = sequelize.define("Productos", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -23,3 +23,5 @@ export const Producto = sequelize.define("Productos", {
   tableName: "productos",
   timestamps: true
 });
+
+export default Producto;
