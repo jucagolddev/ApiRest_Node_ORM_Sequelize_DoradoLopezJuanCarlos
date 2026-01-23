@@ -17,14 +17,14 @@ const dirs = [controllersPath, baseControllersPath, servicesPath, routesPath];
 dirs.forEach(dir => {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
-        console.log(`📁 Directorio creado: ${dir}`);
+        console.log(`Directorio creado: ${dir}`);
     }
 });
 
 // Filtrar modelos
 const models = fs.readdirSync(modelsPath).filter(f => f.endsWith(".js") && f !== "init-models.js");
 
-console.log(`🔍 Modelos encontrados: ${models.join(", ")}`);
+console.log(`Modelos encontrados: ${models.join(", ")}`);
 
 for (const modelFile of models) {
     const modelName = path.basename(modelFile, ".js"); // ejemplo: productos, log
@@ -160,9 +160,9 @@ export const actualizar = Base.actualizar;
 export const eliminar = Base.eliminar;
 `;
         fs.writeFileSync(controllerFilePath, controllerContent);
-        console.log(`✨ Controlador creado: ${modelName}Controller.js`);
+        console.log(`Controlador creado: ${modelName}Controller.js`);
     } else {
-        console.log(`⏩ Controlador existente (omitido): ${modelName}Controller.js`);
+        console.log(`Controlador existente (omitido): ${modelName}Controller.js`);
     }
 
     // ---------------------------------------------------------
@@ -191,7 +191,7 @@ export default router;
     // Sobrescribimos rutas para asegurar que apunten a métodos válidos
     fs.writeFileSync(path.join(routesPath, `${modelName}Routes.js`), routeContent);
 
-    console.log(`✅ CRUD completado para: ${modelName}`);
+    console.log(`CRUD completado para: ${modelName}`);
 }
 
-console.log("🏁 Proceso AutoCRUD finalizado con éxito.");
+console.log("Proceso AutoCRUD finalizado con éxito.");
